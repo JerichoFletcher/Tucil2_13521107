@@ -1,4 +1,4 @@
-#include <struct/Vector.hpp>
+#include <struct/vec/Vector.hpp>
 #include <struct/exc/Exception.hpp>
 #include <iostream>
 #include <cmath>
@@ -39,6 +39,16 @@ int Vector::getDimension() const{
     return dimension;
 }
 
+// Operator =
+Vector& Vector::operator=(const Vector& other){
+    delete[] components;
+    dimension = other.dimension;
+    components = new double[dimension];
+    for(int i = 0; i < dimension; i++)
+        components[i] = other[i];
+    return *this;
+}
+
 // Operator []
 double& Vector::operator[](int axis) const{
     if(axis < 0 || dimension <= axis){
@@ -49,7 +59,7 @@ double& Vector::operator[](int axis) const{
 }
 
 // Comparison function, returns 1 if A>B, -1 if A<B, 0 if A=B
-int Vector::compare(const Vector& other) const{
+/*int Vector::compare(const Vector& other) const{
     if(getDimension() != other.getDimension()){
         throw new Exception("Invalid argument: vector dimension mismatch");
     }
@@ -68,7 +78,7 @@ int Vector::compare(const Vector& other) const{
         }
     }
     return 0;
-}
+}*/
 
 // Returns Euclidean distance squared between v1 and v2
 double Vector::distanceSqr(const Vector& v1, const Vector& v2){

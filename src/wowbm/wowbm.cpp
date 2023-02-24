@@ -1,5 +1,5 @@
 #include <iostream>
-#include <struct/VectorList.hpp>
+#include <struct/vec/VectorList.hpp>
 #include <struct/exc/Exception.hpp>
 using namespace std;
 
@@ -12,6 +12,10 @@ int main(){
         cin >> k;
 
         VectorList& list = *VectorList::randomOfSize(n, k);
+        cout << list << endl;
+
+        list.sort();
+        cout << "Sorted output:" << endl;
         cout << list << endl;
     }catch(exception* e){
         cout << "ERROR: " << e->what() << endl;
