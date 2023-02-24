@@ -6,7 +6,7 @@
 
 // PARAM CTOR
 VectorList::VectorList(int size, int dimension){
-    if(size < 0)throw new Exception("Invalid argument: size must be non-negative");
+    if(size < 0)throw new InvalidArgException("size must be non-negative");
     this->size = size;
     this->dimension = dimension;
     buffer = vector<Vector>();
@@ -29,20 +29,11 @@ int VectorList::getSize() const{
     return size;
 }
 
-// Vector element getter
-void VectorList::setVector(int idx, Vector v){
-    if(idx < 0 || size <= idx){
-        throw new Exception("Index out of range");
-    }else{
-        buffer[idx] = v;
-    }
-}
-
 // Sort function
 void VectorList::sort(){
     std::sort(buffer.begin(), buffer.end(), [](const Vector& v1, const Vector& v2){
         if(v1.getDimension() != v2.getDimension()){
-            throw new Exception("Invalid argument: vector dimension mismatch");
+            throw new InvalidArgException("vector dimension mismatch");
         }else{
             for(int i = 0; i < v1.getDimension(); i++){
                 double
@@ -58,7 +49,7 @@ void VectorList::sort(){
 // Operator []
 Vector& VectorList::operator[](int idx){
     if(idx < 0 || size <= idx){
-        throw new Exception("Index out of range");
+        throw new OutOfRangeException("vector list buffer");
     }else{
         return buffer[idx];
     }
@@ -67,7 +58,7 @@ Vector& VectorList::operator[](int idx){
 // Operator [] constant
 const Vector VectorList::operator[](int idx) const{
     if(idx < 0 || size <= idx){
-        throw new Exception("Index out of range");
+        throw new OutOfRangeException("vector list buffer");
     }else{
         return buffer[idx];
     }

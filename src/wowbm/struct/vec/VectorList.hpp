@@ -13,7 +13,6 @@ class VectorList{
         static VectorList* randomOfSize(int size, int dimension);
 
         int getSize() const;
-        void setVector(int idx, Vector v);
 
         void sort();
         Vector& operator[](int idx);

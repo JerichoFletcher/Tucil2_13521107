@@ -7,7 +7,7 @@ int Vector::distComputeCount = 0;
 
 // PARAM CTOR
 Vector::Vector(int dimension){
-    if(dimension < 1)throw new Exception("Invalid argument: dimension must be greater than 0");
+    if(dimension < 1)throw new InvalidArgException("dimension must be positive");
     this->dimension = dimension;
     components = new double[dimension];
 }
@@ -28,7 +28,7 @@ Vector::~Vector(){
 // Component setter
 void Vector::setComponent(int axis, double value){
     if(axis < 0 || dimension <= axis){
-        throw new Exception("Index out of range");
+        throw new OutOfRangeException("vector component");
     }else{
         components[axis] = value;
     }
@@ -52,7 +52,7 @@ Vector& Vector::operator=(const Vector& other){
 // Operator []
 double& Vector::operator[](int axis) const{
     if(axis < 0 || dimension <= axis){
-        throw new Exception("Index out of range");
+        throw new OutOfRangeException("vector component");
     }else{
         return components[axis];
     }
@@ -83,7 +83,7 @@ double& Vector::operator[](int axis) const{
 // Returns Euclidean distance squared between v1 and v2
 double Vector::distanceSqr(const Vector& v1, const Vector& v2){
     if(v1.getDimension() != v2.getDimension()){
-        throw new Exception("Invalid argument: vector dimension mismatch");
+        throw new InvalidArgException("vector dimension mismatch");
     }else{
         double sum = 0;
         for(int i = 0; i < v1.getDimension(); i++){
