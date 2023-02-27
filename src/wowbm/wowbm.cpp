@@ -12,7 +12,6 @@ int main(){
         cin >> k;
 
         VectorList& list = *VectorList::randomOfSize(n, k);
-        cout << list << endl;
 
         list.sort();
         cout << "Sorted output:" << endl;

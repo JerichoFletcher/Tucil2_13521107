@@ -9,17 +9,20 @@ VectorList::VectorList(int size, int dimension){
     if(size < 0)throw new InvalidArgException("size must be non-negative");
     this->size = size;
     this->dimension = dimension;
-    buffer = vector<Vector>();
+    buffer = new Vector*[size];
 }
 
 // DTOR
-VectorList::~VectorList(){}
+VectorList::~VectorList(){
+    for(int i = 0; i < size; i++)delete buffer[i];
+    delete[] buffer;
+}
 
 // Generates a list of random vectors
 VectorList* VectorList::randomOfSize(int size, int dimension){
     VectorList* list = new VectorList(size, dimension);
     for(int i = 0; i < size; i++){
-        list->buffer.push_back(Random::nextVector(dimension));
+        list->buffer[i] = Random::nextVector(dimension);
     }
     return list;
 }
@@ -29,25 +32,13 @@ int VectorList::getSize() const{
     return size;
 }
 
-// Sort function
+// Sort function kickoff
 void VectorList::sort(){
-    std::sort(buffer.begin(), buffer.end(), [](const Vector& v1, const Vector& v2){
-        if(v1.getDimension() != v2.getDimension()){
-            throw new InvalidArgException("vector dimension mismatch");
-        }else{
-            for(int i = 0; i < v1.getDimension(); i++){
-                double
-                    a = v1[i],
-                    b = v2[i];
-                if(a != b)return a < b;
-            }
-            return false;
-        }
-    });
+    sort(0, size-1);
 }
 
 // Operator []
-Vector& VectorList::operator[](int idx){
+Vector* VectorList::operator[](int idx){
     if(idx < 0 || size <= idx){
         throw new OutOfRangeException("vector list buffer");
     }else{
@@ -60,7 +51,7 @@ const Vector VectorList::operator[](int idx) const{
     if(idx < 0 || size <= idx){
         throw new OutOfRangeException("vector list buffer");
     }else{
-        return buffer[idx];
+        return *(buffer[idx]);
     }
 }
 
@@ -72,4 +63,30 @@ ostream& operator<<(ostream& os, const VectorList& list){
         if(i < d-1)os << endl;
     }
     return os;
+}
+
+// Quicksorts the list from index i through j
+void VectorList::sort(int i, int j){
+    if(i < 0 || j < 0 || i >= j)return;
+    
+    int k = partition(i, j);
+    sort(i, k);
+    sort(k+1, j);
+}
+
+// Partitions the list into 2 subdivisions and returns the pivot index
+int VectorList::partition(int i, int j){
+    Vector& pivot = *(buffer[(i+j)/2]);
+    int
+        p = i,
+        q = j;
+    while(true){
+        while(buffer[p]->compare(pivot) < 0)++p;
+        while(buffer[q]->compare(pivot) > 0)--q;
+
+        if(p >= q)return q;
+        Vector* temp = buffer[p];
+        buffer[p] = buffer[q];
+        buffer[q] = temp;
+    }
 }

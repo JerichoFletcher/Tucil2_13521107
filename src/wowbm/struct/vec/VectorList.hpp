@@ -15,15 +15,18 @@ class VectorList{
         int getSize() const;
 
         void sort();
-        Vector& operator[](int idx);
+        Vector* operator[](int idx);
         const Vector operator[](int idx) const;
 
         friend ostream& operator<<(ostream& os, const VectorList& list);
 
     private:
+        void sort(int i, int j);
+        int partition(int i, int j);
+
         int size;
         int dimension;
-        vector<Vector> buffer;
+        Vector** buffer;
 };
 
 #endif

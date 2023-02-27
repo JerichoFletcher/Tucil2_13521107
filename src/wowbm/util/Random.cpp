@@ -17,10 +17,10 @@ double Random::nextDouble(){
 }
 
 // Returns an n-dimensional vector with pseudo-random components
-Vector Random::nextVector(int dimension){
-    Vector res(dimension);
+Vector* Random::nextVector(int dimension){
+    Vector* res = new Vector(dimension);
     for(int i = 0; i < dimension; i++){
-        res[i] = nextDouble();
+        (*res)[i] = nextDouble();
     }
     return res;
 }

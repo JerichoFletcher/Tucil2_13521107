@@ -8,7 +8,7 @@ class Random{
     public:
         static void init();
         static double nextDouble();
-        static Vector nextVector(int);
+        static Vector* nextVector(int);
     private:
         static time_t seed;
         static const time_t UNINIT_SEED;

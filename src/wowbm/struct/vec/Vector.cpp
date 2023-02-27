@@ -59,9 +59,9 @@ double& Vector::operator[](int axis) const{
 }
 
 // Comparison function, returns 1 if A>B, -1 if A<B, 0 if A=B
-/*int Vector::compare(const Vector& other) const{
+int Vector::compare(const Vector& other) const{
     if(getDimension() != other.getDimension()){
-        throw new Exception("Invalid argument: vector dimension mismatch");
+        throw new InvalidArgException("vector dimension mismatch");
     }
     int idx = 0;
     while(idx < dimension){
@@ -78,7 +78,7 @@ double& Vector::operator[](int axis) const{
         }
     }
     return 0;
-}*/
+}
 
 // Returns Euclidean distance squared between v1 and v2
 double Vector::distanceSqr(const Vector& v1, const Vector& v2){
