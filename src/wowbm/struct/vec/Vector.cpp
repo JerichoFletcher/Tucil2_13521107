@@ -80,6 +80,16 @@ int Vector::compare(const Vector& other) const{
     return 0;
 }
 
+// Distance computation count getter
+int Vector::computeCount(){
+    return distComputeCount;
+}
+
+// Resets the distance computation counter
+void Vector::resetComputeCount(){
+    distComputeCount = 0;
+}
+
 // Returns Euclidean distance squared between v1 and v2
 double Vector::distanceSqr(const Vector& v1, const Vector& v2){
     if(v1.getDimension() != v2.getDimension()){
@@ -97,8 +107,7 @@ double Vector::distanceSqr(const Vector& v1, const Vector& v2){
 // Returns Euclidean distance between v1 and v2
 double Vector::distance(const Vector& v1, const Vector& v2){
     ++distComputeCount;
-    double d = distanceSqr(v1, v2);
-    return d >= 0 ? sqrt(d) : d;
+    return sqrt(distanceSqr(v1, v2));
 }
 
 // Print to stream function

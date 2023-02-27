@@ -18,7 +18,7 @@ const char* Exception::what() const noexcept{
 }
 
 OutOfRangeException::OutOfRangeException(const char* msg = NULL): Exception(msg){
-    if(msg == NULL){
+    if(!msg){
         this->msg = new char[strlen(premsg) + 1];
         strcpy(this->msg, premsg);
     }else{
@@ -30,7 +30,7 @@ OutOfRangeException::OutOfRangeException(const char* msg = NULL): Exception(msg)
 }
 
 InvalidArgException::InvalidArgException(const char* msg = NULL): Exception(msg){
-    if(msg == NULL){
+    if(!msg){
         this->msg = new char[strlen(premsg) + 1];
         strcpy(this->msg, premsg);
     }else{
