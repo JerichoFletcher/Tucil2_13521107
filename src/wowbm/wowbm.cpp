@@ -10,6 +10,8 @@ using namespace std;
 
 int main(int _argc, char* _argv[]){
     try{
+        cout << "======================= WOW BEST MATCH =======================" << endl;
+
         VectorList* list = NULL;
 #ifdef DEBUG
         VectorPair* pairBf = NULL;
@@ -72,7 +74,11 @@ int main(int _argc, char* _argv[]){
         }
 
         ofstream file("result.txt");
-        pairDnc->writeToFile(file) << endl;
+        if(pairDnc){
+            pairDnc->writeToFile(file) << endl;
+        }else{
+            file << "-1 -1" << endl;
+        }
         list->writeToFile(file);
         file.close();
 
