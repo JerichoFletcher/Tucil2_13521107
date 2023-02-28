@@ -2,3 +2,4 @@
 *.spec
 bin/wowplot/
 result.txt
+*.docx
