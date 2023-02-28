@@ -4,11 +4,15 @@ SOURCE_CPP		= src/wowbm
 OUTPUT			= bin
 
 CPPFLAGS		= -I$(SOURCE_CPP)
+DBGFLAGS		= -D DEBUG
 
 WOWBM_NAME		= wowbm
 
 run: wowbm
 	@$(OUTPUT)/$(WOWBM_NAME).exe
+
+debug: wowbm-debug
+	@$(OUTPUT)/$(WOWBM_NAME)_debug.exe
 
 wowbm:
 	@echo Compiling wowbm source...
@@ -18,8 +22,24 @@ wowbm:
 	@$(GPP) $(CPPFLAGS) -c $(SOURCE_CPP)\\struct\\vec\\VectorPair.cpp 		-o $(OUTPUT)\\VectorPair.o
 	@$(GPP) $(CPPFLAGS) -c $(SOURCE_CPP)\\struct\\exc\\Exception.cpp 		-o $(OUTPUT)\\Exception.o
 	@$(GPP) $(CPPFLAGS) -c $(SOURCE_CPP)\\util\\Random.cpp 					-o $(OUTPUT)\\Random.o
+	@$(GPP) $(CPPFLAGS) -c $(SOURCE_CPP)\\util\\Timer.cpp 					-o $(OUTPUT)\\Timer.o
 	@echo Building wowbm executable...
 	@$(GPP) $(CPPFLAGS) $(OUTPUT)\\*.o -o $(OUTPUT)\\$(WOWBM_NAME).exe
+
+	@del /Q $(OUTPUT)\\*.o
+	@echo Done!
+
+wowbm-debug:
+	@echo Compiling wowbm source with debug option...
+	@$(GPP) $(CPPFLAGS) $(DBGFLAGS) -c $(SOURCE_CPP)\\wowbm.cpp 						-o $(OUTPUT)\\wowbm.o
+	@$(GPP) $(CPPFLAGS) $(DBGFLAGS) -c $(SOURCE_CPP)\\struct\\vec\\Vector.cpp 			-o $(OUTPUT)\\Vector.o
+	@$(GPP) $(CPPFLAGS) $(DBGFLAGS) -c $(SOURCE_CPP)\\struct\\vec\\VectorList.cpp 		-o $(OUTPUT)\\VectorList.o
+	@$(GPP) $(CPPFLAGS) $(DBGFLAGS) -c $(SOURCE_CPP)\\struct\\vec\\VectorPair.cpp 		-o $(OUTPUT)\\VectorPair.o
+	@$(GPP) $(CPPFLAGS) $(DBGFLAGS) -c $(SOURCE_CPP)\\struct\\exc\\Exception.cpp 		-o $(OUTPUT)\\Exception.o
+	@$(GPP) $(CPPFLAGS) $(DBGFLAGS) -c $(SOURCE_CPP)\\util\\Random.cpp 					-o $(OUTPUT)\\Random.o
+	@$(GPP) $(CPPFLAGS) $(DBGFLAGS) -c $(SOURCE_CPP)\\util\\Timer.cpp 					-o $(OUTPUT)\\Timer.o
+	@echo Building wowbm executable...
+	@$(GPP) $(CPPFLAGS) $(OUTPUT)\\*.o -o $(OUTPUT)\\$(WOWBM_NAME)_debug.exe
 
 	@del /Q $(OUTPUT)\\*.o
 	@echo Done!

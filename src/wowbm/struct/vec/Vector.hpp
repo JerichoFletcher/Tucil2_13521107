@@ -6,7 +6,6 @@ using namespace std;
 
 class Vector{
     public:
-        Vector();
         Vector(int dimension);
         Vector(const Vector& other);
         ~Vector();

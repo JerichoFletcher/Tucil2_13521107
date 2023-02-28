@@ -3,6 +3,8 @@
 #include <struct/exc/Exception.hpp>
 #include <util/Random.hpp>
 #include <cmath>
+#include <string>
+#include <sstream>
 
 // PARAM CTOR
 VectorList::VectorList(int size, int dimension){
@@ -24,6 +26,40 @@ VectorList* VectorList::randomOfSize(int size, int dimension){
     for(int i = 0; i < size; ++i){
         list->buffer[i] = Random::nextVector(dimension);
     }
+    return list;
+}
+
+// Generates a list of vectors from a csv file
+VectorList* VectorList::fromFile(const char* path){
+    ifstream file(path);
+    string line, col;
+
+    // Read heading
+    getline(file, line);
+    stringstream ssc(line);
+
+    // Count number of columns
+    int size = -1, dimension = 0;
+    while(getline(ssc, col, ','))++dimension;
+    
+    // Count number of lines
+    ifstream linecounter(path);
+    while(getline(linecounter, line))++size;
+    linecounter.close();
+
+    VectorList* list = new VectorList(size, dimension);
+
+    // Read file contents and store
+    int i = 0;
+    while(getline(file, line)){
+        list->buffer[i] = new Vector(dimension);
+        int j = 0;
+        stringstream ss(line);
+        while(getline(ss, col, ','))list->buffer[i]->setComponent(j++, stod(col));
+        ++i;
+    }
+
+    file.close();
     return list;
 }
 
@@ -102,6 +138,10 @@ VectorPair* VectorList::closestPairDnc(int i, int j){
             *d2 = closestPairDnc(k+1, j),
             *d;
         
+        //if(d1)cout << " d1: " << d1->distance();
+        //if(d2)cout << " d2: " << d2->distance();
+        //cout << endl;
+        
         if(d1 && !d2){
             d = d1;
             delete d2;
@@ -118,12 +158,13 @@ VectorPair* VectorList::closestPairDnc(int i, int j){
             }
         }
 
-        // Search for closest pair within d of midpoint
-        double mid = loDistance(k, k+1);
+        //Search for closest pair within d of midpoint
+        double mid = (*buffer[k])[0] + loDistance(k, k+1)/2;
         int
             p = i,
             q = j;
         
+        //cout << "mid: " << mid << endl;
         //cout << "current distance " << loDistance(p, mid) << " vs " << d->distance() << endl;
         while(p < k && loDistance(p, mid) > d->distance())++p;
         while(q > k+1 && loDistance(q, mid) > d->distance())--q;
@@ -132,7 +173,10 @@ VectorPair* VectorList::closestPairDnc(int i, int j){
         for(int u = p; u <= k; ++u){
             for(int v = q; v >= k+1; --v){
                 //cout << "compute " << u << " " << v;
-                if(dimension > 1 && maxDistance(u, v) > d->distance())continue;
+                if(dimension > 1 && maxDistance(u, v) > d->distance()){
+                    //cout << endl;
+                    continue;
+                }
                 VectorPair* d3 = new VectorPair(buffer[u], buffer[v]);
                 //cout << " dist " << d3->distance() << " vs " << d->distance() << endl;
                 

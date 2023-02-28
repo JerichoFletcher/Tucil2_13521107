@@ -4,11 +4,13 @@
 #include <struct/vec/Vector.hpp>
 #include <struct/vec/VectorPair.hpp>
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 class VectorList{
     public:
         static VectorList* randomOfSize(int size, int dimension);
+        static VectorList* fromFile(const char* path);
 
         VectorList(int size, int dimension);
         ~VectorList();
