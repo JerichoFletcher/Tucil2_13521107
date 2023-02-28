@@ -18,10 +18,20 @@ run:
 	@echo Plotting...
 	@$(OUTPUT)/$(WOWPLOT_NAME).exe
 
+run-nopybin:
+	@$(OUTPUT)/$(WOWBM_NAME).exe
+	@echo Plotting...
+	@python $(SOURCE_PY)/wowplot.py
+
 debug:
 	@$(OUTPUT)/$(WOWBMDBG_NAME).exe
 	@echo Plotting...
 	@$(OUTPUT)/$(WOWPLOT_NAME).exe
+
+debug-nopybin:
+	@$(OUTPUT)/$(WOWBMDBG_NAME).exe
+	@echo Plotting...
+	@python $(SOURCE_PY)/wowplot.py
 
 build-all: wowbm wowplot
 build-debug: wowbm-debug wowplot
@@ -58,7 +68,7 @@ wowbm-debug:
 
 wowplot:
 	@echo Building wowplot executable...
-	@$(PYINS) $(PYFLAGS) $(SOURCE_PY)/$(WOWPLOT_NAME).py								--distpath $(OUTPUT)
+	@$(PYINS) $(PYFLAGS) $(SOURCE_PY)/wowplot.py --distpath $(OUTPUT)
 	@echo Done!
 
 clean:
