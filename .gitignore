@@ -1,1 +1,4 @@
 *.o
+*.spec
+bin/wowplot/
+result.txt

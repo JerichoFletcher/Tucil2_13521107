@@ -71,6 +71,11 @@ int main(int _argc, char* _argv[]){
             cout << "Found with " << countDnc << " dist-computations over " << Timer::toMilli(timeDnc) << "ms" << endl;
         }
 
+        ofstream file("result.txt");
+        pairDnc->writeToFile(file) << endl;
+        list->writeToFile(file);
+        file.close();
+
 #ifdef DEBUG
         delete pairBf;
 #endif

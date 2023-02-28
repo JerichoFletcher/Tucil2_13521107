@@ -22,6 +22,7 @@ class Vector{
         static double distanceSqr(const Vector& v1, const Vector& v2);
         static double distance(const Vector& v1, const Vector& v2);
     
+        ostream& writeToFile(ostream& file) const;
         friend ostream& operator<<(ostream& os, const Vector& v);
 
     private:

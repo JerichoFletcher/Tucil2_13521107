@@ -27,6 +27,7 @@ class VectorList{
         Vector* operator[](int idx);
         const Vector operator[](int idx) const;
 
+        ostream& writeToFile(ostream& file) const;
         friend ostream& operator<<(ostream& os, const VectorList& list);
 
     private:

@@ -110,6 +110,16 @@ double Vector::distance(const Vector& v1, const Vector& v2){
     return sqrt(distanceSqr(v1, v2));
 }
 
+// Print to file stream function
+ostream& Vector::writeToFile(ostream& file) const{
+    int d = getDimension();
+    for(int i = 0; i < d; i++){
+        file << (*this)[i];
+        if(i < d-1)file << " ";
+    }
+    return file;
+}
+
 // Print to stream function
 ostream& operator<<(ostream& os, const Vector& v){
     os << "(";

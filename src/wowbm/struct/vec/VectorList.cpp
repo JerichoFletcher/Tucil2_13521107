@@ -105,7 +105,7 @@ VectorPair* VectorList::closestPairBf(){
     for(int i = 0; i < size; ++i){
         for(int j = 0; j < size; ++j){
             if(i == j)continue;
-            VectorPair* d1 = new VectorPair(buffer[i], buffer[j]);
+            VectorPair* d1 = new VectorPair(buffer[i], buffer[j], i, j);
             if(!d || *d1 < *d){
                 delete d;
                 d = d1;
@@ -129,7 +129,7 @@ VectorPair* VectorList::closestPairDnc(int i, int j){
         return NULL;
     }else if(j - i == 1){
         //cout << "two case" << endl;
-        return new VectorPair(buffer[i], buffer[j]);
+        return new VectorPair(buffer[i], buffer[j], i, j);
     }else{
         //cout << "many case," << endl;
         int k = (i+j)/2;
@@ -177,7 +177,7 @@ VectorPair* VectorList::closestPairDnc(int i, int j){
                     //cout << endl;
                     continue;
                 }
-                VectorPair* d3 = new VectorPair(buffer[u], buffer[v]);
+                VectorPair* d3 = new VectorPair(buffer[u], buffer[v], u, v);
                 //cout << " dist " << d3->distance() << " vs " << d->distance() << endl;
                 
                 if(*d3 < *d){
@@ -239,6 +239,16 @@ const Vector VectorList::operator[](int idx) const{
     }else{
         return *(buffer[idx]);
     }
+}
+
+// Print to file stream function
+ostream& VectorList::writeToFile(ostream& file) const{
+    int d = getSize();
+    for(int i = 0; i < d; ++i){
+        (*this)[i].writeToFile(file);
+        if(i < d-1)file << endl;
+    }
+    return file;
 }
 
 // Print to stream function
