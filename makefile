@@ -10,14 +10,21 @@ DBGFLAGS		= -D DEBUG
 PYFLAGS			= --onefile --specpath $(OUTPUT) --workpath $(OUTPUT) --name $(WOWPLOT_NAME) --log-level WARN
 
 WOWBM_NAME		= wowbm
+WOWBMDBG_NAME	= $(WOWBM_NAME)_debug
 WOWPLOT_NAME	= wowplot
 
-run: wowbm
+run:
 	@$(OUTPUT)/$(WOWBM_NAME).exe
-	@$(OUTPUT)/
+	@echo Plotting...
+	@$(OUTPUT)/$(WOWPLOT_NAME).exe
 
-debug: wowbm-debug
-	@$(OUTPUT)/$(WOWBM_NAME)_debug.exe
+debug:
+	@$(OUTPUT)/$(WOWBMDBG_NAME).exe
+	@echo Plotting...
+	@$(OUTPUT)/$(WOWPLOT_NAME).exe
+
+build-all: wowbm wowplot
+build-debug: wowbm-debug wowplot
 
 wowbm:
 	@echo Compiling wowbm source...
@@ -44,7 +51,7 @@ wowbm-debug:
 	@$(GPP) $(CPPFLAGS) $(DBGFLAGS) -c $(SOURCE_CPP)/util/Random.cpp 					-o $(OUTPUT)/Random.o
 	@$(GPP) $(CPPFLAGS) $(DBGFLAGS) -c $(SOURCE_CPP)/util/Timer.cpp 					-o $(OUTPUT)/Timer.o
 	@echo Building wowbm executable...
-	@$(GPP) $(CPPFLAGS) $(OUTPUT)/*.o -o $(OUTPUT)/$(WOWBM_NAME)_debug.exe
+	@$(GPP) $(CPPFLAGS) $(OUTPUT)/*.o -o $(OUTPUT)/$(WOWBMDBG_NAME).exe
 
 	@del /Q $(OUTPUT)\\*.o
 	@echo Done!
@@ -56,4 +63,9 @@ wowplot:
 
 clean:
 	@echo Cleaning up build folder...
-	@del /Q $(OUTPUT)\\*
+ifeq ($(OS),Windows_NT)
+	@rmdir /s /q $(OUTPUT)
+else
+	@rm -rf $(OUTPUT)
+endif
+	@mkdir $(OUTPUT)
